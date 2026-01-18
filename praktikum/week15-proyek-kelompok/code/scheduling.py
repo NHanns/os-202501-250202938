@@ -1,81 +1,69 @@
-import csv
 import os
+import csv
 
-# ===============================
-# BACA DATA DARI CSV
-# ===============================
 def read_processes(filename):
     processes = []
-    with open(filename, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            processes.append({
-                'id': row['ProcessID'],
-                'arrival': int(row['ArrivalTime']),
-                'burst': int(row['BurstTime'])
-            })
-    return processes
+    # Mengambil path folder tempat file scheduling.py berada
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Menggabungkan dengan folder data
+    file_path = os.path.join(current_dir, 'data', filename)
 
+    try:
+        with open(file_path, 'r', encoding='utf-8-sig') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                processes.append({
+                    'ProcessID': row['ProcessID'],
+                    'ArrivalTime': int(row['ArrivalTime']),
+                    'BurstTime': int(row['BurstTime'])
+                })
+        return processes
+    except Exception as e:
+        print(f"Error membaca file: {e}")
+        return []
 
-# ===============================
-# FCFS
-# ===============================
-def fcfs(processes):
-    time = 0
-    processes.sort(key=lambda x: x['arrival'])
+def fcfs_algorithm(data_proses):
+    # 1. Urutkan berdasarkan Arrival Time (Waktu Klik Update)
+    data_proses.sort(key=lambda x: x['ArrivalTime'])
 
-    print("\n=== FCFS Scheduling ===")
-    print("ID\tStart\tFinish\tWaiting\tTurnaround")
+    # Menambahkan judul konteks simulasi agar lebih jelas
+    print("\n" + "="*85)
+    print(" " * 30 + "ANTREAN UPDATE GAME")
+    print("="*85)
+    print(f"{'Game ID':<20} | {'Arrival':<8} | {'Burst':<6} | {'Start':<6} | {'Finish':<7} | {'WT':<5} | {'TAT':<4}")
+    print("-" * 85)
 
-    for p in processes:
-        if time < p['arrival']:
-            time = p['arrival']
+    current_time = 0
+    total_wt = 0
+    total_tat = 0
 
-        start = time
-        finish = time + p['burst']
-        waiting = start - p['arrival']
-        turnaround = finish - p['arrival']
+    for p in data_proses:
+        # Jika CPU/Disk menganggur menunggu jadwal update berikutnya
+        if current_time < p['ArrivalTime']:
+            current_time = p['ArrivalTime']
+        
+        # Start: Waktu mulai proses patching/install
+        start_time = current_time
+        # Finish: Waktu game selesai di-update
+        finish_time = start_time + p['BurstTime']
+        
+        # Perhitungan TAT (Total durasi) & WT (Waktu Pending)
+        tat = finish_time - p['ArrivalTime']
+        wt = tat - p['BurstTime']
+        
+        total_wt += wt
+        total_tat += tat
+        
+        # Cetak baris data dengan format kolom yang rapi
+        print(f"{p['ProcessID']:<20} | {p['ArrivalTime']:<8} | {p['BurstTime']:<6} | "
+              f"{start_time:<6} | {finish_time:<7} | {wt:<5} | {tat:<4}")
+        
+        # Update current_time ke waktu selesai proses terakhir
+        current_time = finish_time
 
-        print(f"{p['id']}\t{start}\t{finish}\t{waiting}\t{turnaround}")
-        time = finish
-
-
-# ===============================
-# SJF NON-PREEMPTIVE
-# ===============================
-def sjf(processes):
-    time = 0
-    completed = []
-    n = len(processes)
-
-    print("\n=== SJF Scheduling ===")
-    print("ID\tStart\tFinish\tWaiting\tTurnaround")
-
-    while len(completed) < n:
-        ready = [p for p in processes
-                 if p['arrival'] <= time and p not in completed]
-
-        if ready:
-            p = min(ready, key=lambda x: x['burst'])
-
-            start = time
-            finish = time + p['burst']
-            waiting = start - p['arrival']
-            turnaround = finish - p['arrival']
-
-            print(f"{p['id']}\t{start}\t{finish}\t{waiting}\t{turnaround}")
-
-            time = finish
-            completed.append(p)
-        else:
-            time += 1
-
-
-# ===============================
-# MAIN PROGRAM
-# ===============================
-if __name__ == "__main__":
-    processes = read_processes("data/processes.csv")
-
-    fcfs(processes.copy())
-    sjf(processes.copy())
+    # Statistik Rata-rata
+    n = len(data_proses)
+    print("-" * 85)
+    print(f"Rata-rata Waktu Tunggu / Pending (WT)  : {total_wt/n:.2f}")
+    print(f"Rata-rata Total Waktu Selesai (TAT)   : {total_tat/n:.2f}")
+    print("="*85)

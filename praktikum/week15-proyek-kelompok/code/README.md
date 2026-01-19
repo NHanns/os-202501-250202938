@@ -1,12 +1,10 @@
-
 Proyek Simulator OS Kelompok
 
 Fitur
 - Simulasi FCFS CPU Scheduling  
 - Simulasi FIFO Memory Management
-- Tema data game (PUBG, Genshin, dll)
-- Tabel output ASCII rapi
-- Support Python lokal + Docker
+- Tabel hasil yang rapi di layar
+- Bisa jalan pakai Python atau Docker
 
 Struktur Folder
 ```
@@ -25,9 +23,9 @@ code/
 Cara Menjalankan
 
  1. Persiapan
-Buka Command Prompt (CMD) di folder proyek:
+Buka Command Prompt (CMD) lalu buka ke folder week15 :
 ```
-os-202501-250202938\praktikum\week15-proyek-kelompok>
+cd os-202501-250202938\praktikum\week15-proyek-kelompok>
 ```
 2. Versi Local (Python langsung)
 ```

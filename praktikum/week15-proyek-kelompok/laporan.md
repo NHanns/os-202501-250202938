@@ -9,7 +9,7 @@ Proyek ini menggunakan studi kasus manajemen ekosistem game, di mana interaksi p
 2. Manajemen Slot RAM: Menggunakan algoritma First-In, First-Out (FIFO) untuk mengelola pergantian aplikasi game dalam RAM yang terbatas (3 slot).  
 
 
-Tujuan Proyek    
+### B. Tujuan Proyek    
 1. Menganalisis efisiensi CPU dengan menghitung metrik kinerja seperti Waiting Time (WT) dan Turnaround Time (TAT) untuk memahami dampak urutan proses terhadap keterlambatan sistem.  
 2. Optimasi manajemen memori dengan mengukur keberhasilan akses data melalui metrik Page Faults dan Hit Ratio pada skenario memori terbatas.  
 3. Implementasi modular dan portabilitas dengan membangun aplikasi berbasis terminal yang terstruktur secara modular dan dapat dijalankan secara instan menggunakan teknologi kontainer.  
@@ -28,11 +28,11 @@ Aplikasi ini dirancang dengan arsitektur modular, di mana setiap fungsi logika d
 
 - `memory.py` (Memory Manager): Modul ini mengelola simulasi Page Replacement menggunakan algoritma FIFO. Logika di dalamnya mensimulasikan bagaimana data game dimasukkan ke dalam slot RAM yang terbatas dan menangani proses eliminasi data tertua saat terjadi Page Fault .
 
-- `utils.py` (Data Access Layer): Berfungsi sebagai penghubung ke penyimpanan eksternal. Modul ini bertanggung jawab menangani file handling untuk membaca dan memproses file dataset dalam folder data/ .
+- `utils.py` (Data Access Layer): Berfungsi sebagai penghubung ke penyimpanan eksternal. Modul ini bertanggung jawab menangani file handling untuk membaca dan memproses file dataset dalam folder `data/` .
 
 ### B. Alur Data (Data Flow)
 Sistem ini bekerja dengan mengikuti alur data yang terstruktur:
-1. Input Phase: Aplikasi membaca data mentah dari file processes.csv (untuk CPU) dan pages.csv (untuk Memori) melalui modul utils.py.
+1. Input Phase: Aplikasi membaca data mentah dari file processes.csv (untuk CPU) dan pages.csv (untuk Memori) melalui modul `utils.py`.
 2. Processing Phase:
 - Pada Penjadwalan, data diurutkan berdasarkan Arrival Time sebelum diproses oleh fungsi FCFS .
 - Pada Memori, urutan klik aplikasi diproses langkah demi langkah untuk memeriksa ketersediaan slot di dalam memory frame .
@@ -44,7 +44,7 @@ Sistem ini bekerja dengan mengikuti alur data yang terstruktur:
 Implementasi menggunakan Docker bertujuan untuk menciptakan lingkungan yang terisolasi dan konsisten (reproducible), sehingga aplikasi dapat berjalan di berbagai sistem operasi tanpa perlu menginstal dependensi secara manual.
 
 ### A. Spesifikasi Dockerfile
-Proyek ini menggunakan base image Python yang ringan (python:3.11-slim) untuk efisiensi ruang penyimpanan. Berdasarkan konfigurasi yang telah ditetapkan, berikut adalah langkah-langkah otomatisasi yang dilakukan oleh Docker:
+Proyek ini menggunakan base image Python yang ringan (`python:3.11-slim`) untuk efisiensi ruang penyimpanan. Berdasarkan konfigurasi yang telah ditetapkan, berikut adalah langkah-langkah otomatisasi yang dilakukan oleh Docker:
 1. Menetapkan direktori kerja di dalam kontainer pada /app.
 2. Menyalin seluruh modul inti (`main.py`, `utils.py`, `memory.py`, dan `scheduling.py`) ke dalam kontainer.
 3. Menyiapkan folder `data/` dan menyalin file `dataset .csv` ke dalamnya untuk memastikan ketersediaan input data.
@@ -75,7 +75,7 @@ docker run --rm week15-proyek-kelompok
 
 **Dokumentasi**:
 
-![Screenshot hasil](screenshots/demo_run_ke-2.png)
+![Screenshot hasil](screenshots/demo_run_ke-1.png)
 
 
 4. **Tahap Eksekusi Interaktif** Mengingat aplikasi memerlukan input pengguna untuk navigasi menu, perintah ini wajib menggunakan flag `-it` (Interactive Terminal). Parameter `--rm` ditambahkan untuk memastikan kontainer otomatis terhapus setelah sesi berakhir guna efisiensi penyimpanan.
@@ -85,9 +85,9 @@ docker run --rm -it week15-proyek-kelompok
 ```
 **Dokumentasi**:
 
-![Screenshot hasil](screenshots/hasil_tabel_keluar.png.png)
+![Screenshot hasil](screenshots/demo_run_ke-2.png)
 
-
+![Screenshot hasil](screenshots/hasil_tabel_fcfs.png)
 
 5. **Alur Interaksi Sistem** Setelah kontainer berhasil dijalankan, sistem akan memuat antarmuka Sistem Simulasi OS secara otomatis. Pengguna diharapkan memberikan input angka sesuai dengan menu yang tersedia:
 - Input '1': Menjalankan Simulasi Penjadwalan CPU (FCFS).

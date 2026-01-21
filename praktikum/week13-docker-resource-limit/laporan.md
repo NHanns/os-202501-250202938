@@ -143,7 +143,7 @@ docker stats
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
+Sertakan screenshot hasil percobaan atau diagram :
 
 ## 1. Kondisi Normal (Baseline)
 ![alt text](../week13-docker-resource-limit/screenshots/(1)%20Kondisi%20Normal%20(Baseline).png)

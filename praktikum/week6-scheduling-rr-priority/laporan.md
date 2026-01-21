@@ -114,7 +114,7 @@ Karena bersifat non-preemptive, jika suatu proses sudah mulai dijalankan, maka p
 ---
 
 ## Kode / Perintah
-Tuliskan potongan kode atau perintah utama:
+Tuliskan potongan kode atau perintah utama :
 
      | P1 | P2 | P3 | P4 | P1 | P3 | ...
      0    3    6    9   12   15   18  ...
